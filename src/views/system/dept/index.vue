@@ -9,7 +9,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="状态" prop="status">
+      <!-- <el-form-item label="状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="部门状态" clearable>
           <el-option
             v-for="dict in dict.type.sys_normal_disable"
@@ -18,10 +18,10 @@
             :value="dict.value"
           />
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <!-- <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button> -->
       </el-form-item>
     </el-form>
 
@@ -36,7 +36,7 @@
           v-hasPermi="['system:dept:add']"
         >新增</el-button>
       </el-col>
-      <el-col :span="1.5">
+      <!-- <el-col :span="1.5">
         <el-button
           type="info"
           plain
@@ -44,7 +44,7 @@
           size="mini"
           @click="toggleExpandAll"
         >展开/折叠</el-button>
-      </el-col>
+      </el-col> -->
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -56,18 +56,19 @@
       :default-expand-all="isExpandAll"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
-      <el-table-column prop="deptName" label="部门名称" width="260"></el-table-column>
-      <el-table-column prop="orderNum" label="排序" width="200"></el-table-column>
-      <el-table-column prop="status" label="状态" width="100">
-        <template slot-scope="scope">
+      <el-table-column prop="deptName" label="社团名称" width="160"></el-table-column>
+      <el-table-column prop="content" label="社团简介" width="660"></el-table-column>
+      <!-- <el-table-column prop="orderNum" label="排序" width="200"></el-table-column> -->
+      <!-- <el-table-column prop="status" label="状态" width="100"> -->
+        <!-- <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
-        </template>
-      </el-table-column>
+        </template> -->
+      <!-- </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createTime" width="200">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -77,13 +78,13 @@
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:dept:edit']"
           >修改</el-button>
-          <el-button
+          <!-- <el-button
             size="mini"
             type="text"
             icon="el-icon-plus"
             @click="handleAdd(scope.row)"
             v-hasPermi="['system:dept:add']"
-          >新增</el-button>
+          >新增</el-button> -->
           <el-button
             v-if="scope.row.parentId != 0"
             size="mini"
@@ -101,19 +102,24 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="24" v-if="form.parentId !== 0">
-            <el-form-item label="上级部门" prop="parentId">
+            <el-form-item label="上级部门" prop="parentId" hidden>
               <treeselect v-model="form.parentId" :options="deptOptions" :normalizer="normalizer" placeholder="选择上级部门" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="部门名称" prop="deptName">
+          <el-col :span="24">
+            <el-form-item label="社团名称" prop="deptName">
               <el-input v-model="form.deptName" placeholder="请输入部门名称" />
             </el-form-item>
           </el-col>
+          <el-col :span="24">
+            <el-form-item label="社团介绍" prop="content">
+              <el-input v-model="form.content" placeholder="请输入社团介绍" type="textarea"/>
+            </el-form-item>
+          </el-col>
           <el-col :span="12">
-            <el-form-item label="显示排序" prop="orderNum">
+            <el-form-item label="显示排序" prop="orderNum" hidden>
               <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
             </el-form-item>
           </el-col>
@@ -137,7 +143,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="部门状态">
+            <el-form-item label="部门状态" hidden>
               <el-radio-group v-model="form.status">
                 <el-radio
                   v-for="dict in dict.type.sys_normal_disable"
@@ -253,6 +259,7 @@ export default {
         deptId: undefined,
         parentId: undefined,
         deptName: undefined,
+        content: undefined,
         orderNum: undefined,
         leader: undefined,
         phone: undefined,
@@ -276,6 +283,9 @@ export default {
       if (row != undefined) {
         this.form.parentId = row.deptId;
       }
+      /** 默认设置parentId为郑州大学, 排序为1 */
+      this.form.parentId = 100;
+      this.form.orderNum = 1;
       this.open = true;
       this.title = "添加部门";
       listDept().then(response => {
@@ -338,3 +348,10 @@ export default {
   }
 };
 </script>
+
+
+<style>
+.el-textarea__inner{
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+}
+</style>

@@ -12,7 +12,7 @@
                 <div class="bottom clearfix">
                     <time class="time">{{ item.time }}</time>
                     <el-button type="text" class="button">
-                        <router-link :to="{ path: '/newslistdetail/:id', query: { id: item.id } }">查看详情 </router-link>
+                        <router-link :to="{ path: '/newslistdetail', query: { id: item.id } }">查看详情 </router-link>
                     </el-button>
                     
                 </div>
@@ -65,7 +65,7 @@ export default {
     margin-bottom: 10px;
 }
 
-.el-card__body {
+.el-card__body :scope {
     padding-right: 20px;
     height: 220px;
     margin-bottom: 20px;
