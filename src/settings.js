@@ -17,7 +17,7 @@ module.exports = {
   /**
    * 是否显示 tagsView
    */
-  tagsView: true,
+  tagsView: false,
 
   /**
    * 是否固定头部
@@ -27,7 +27,7 @@ module.exports = {
   /**
    * 是否显示logo
    */
-  sidebarLogo: false,
+  sidebarLogo: true,
 
   /**
    * 是否显示动态标题

@@ -158,7 +158,18 @@
               <span>{{ parseTime(scope.row.createTime) }}</span>
             </template>
           </el-table-column> -->
-          <el-table-column label="角色" align="center" key="roleIds" prop="roleIds"/>
+          <!-- <el-table-column label="角色" align="center" key="roleIds" prop="roleIds">
+            <template slot-scope="scope">
+              <dict-tag :options="dict.type.sys_roles_type" :value="scope.row.roleIds[0]" />
+            </template>
+          </el-table-column> -->
+          <el-table-column label="角色" align="center" key="roleIds" prop="roleIds">
+            <template slot-scope="scope">
+              <div v-for="roleId in scope.row.roleIds" :key="roleId">
+                <dict-tag :options="dict.type.sys_roles_type" :value="roleId" />
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column
             label="操作"
             align="center"
@@ -353,7 +364,7 @@ import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
 export default {
   name: "User",
-  dicts: ['sys_normal_disable', 'sys_user_sex'],
+  dicts: ['sys_normal_disable', 'sys_user_sex', 'sys_roles_type'],
   components: { Treeselect },
   data() {
     return {
