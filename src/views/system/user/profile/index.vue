@@ -12,7 +12,7 @@
             </div>
             <ul class="list-group list-group-striped">
               <li class="list-group-item">
-                <svg-icon icon-class="user" />用户名称
+                <svg-icon icon-class="user" />用户姓名
                 <div class="pull-right">{{ user.userName }}</div>
               </li>
               <li class="list-group-item">
@@ -24,8 +24,9 @@
                 <div class="pull-right">{{ user.email }}</div>
               </li>
               <li class="list-group-item">
-                <svg-icon icon-class="tree" />所属部门
-                <div class="pull-right" v-if="user.dept">{{ user.dept.deptName }} / {{ postGroup }}</div>
+                <svg-icon icon-class="tree" />所属社团
+                <!-- <div class="pull-right" v-if="user.dept">{{ user.dept.deptName }} / {{ postGroup }}</div> -->
+                <div class="pull-right" v-if="user.dept">{{ user.dept.deptName }}</div>
               </li>
               <li class="list-group-item">
                 <svg-icon icon-class="peoples" />所属角色
