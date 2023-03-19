@@ -9,14 +9,14 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="时间" prop="actTime">
+      <!-- <el-form-item label="时间" prop="actTime">
         <el-date-picker clearable
           v-model="queryParams.actTime"
           type="date"
           value-format="yyyy-MM-dd"
           placeholder="请选择时间">
         </el-date-picker>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="地点" prop="actLocation">
         <el-input
           v-model="queryParams.actLocation"
@@ -25,7 +25,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="创建用户id" prop="userId">
+      <!-- <el-form-item label="创建用户id" prop="userId">
         <el-input
           v-model="queryParams.userId"
           placeholder="请输入创建用户id"
@@ -40,7 +40,7 @@
           clearable
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -95,17 +95,17 @@
 
     <el-table v-loading="loading" :data="activityList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="活动id" align="center" prop="actId" />
+      <!-- <el-table-column label="活动id" align="center" prop="actId" /> -->
       <el-table-column label="活动标题" align="center" prop="actTitle" />
       <el-table-column label="活动内容" align="center" prop="actContent" />
       <el-table-column label="时间" align="center" prop="actTime" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.actTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.actTime, '{m}-{d} {h}:{i}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="地点" align="center" prop="actLocation" />
-      <el-table-column label="创建用户id" align="center" prop="userId" />
-      <el-table-column label="创建部门id" align="center" prop="deptId" />
+      <!-- <el-table-column label="创建用户id" align="center" prop="userId" /> -->
+      <!-- <el-table-column label="创建部门id" align="center" prop="deptId" /> -->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -146,18 +146,18 @@
         <el-form-item label="时间" prop="actTime">
           <el-date-picker clearable
             v-model="form.actTime"
-            type="date"
-            value-format="yyyy-MM-dd"
+            type="datetime"
+            value-format="yyyy-MM-dd HH:mm"
             placeholder="请选择时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="地点" prop="actLocation">
           <el-input v-model="form.actLocation" placeholder="请输入地点" />
         </el-form-item>
-        <el-form-item label="创建用户id" prop="userId">
+        <el-form-item label="创建用户id" prop="userId" hidden>
           <el-input v-model="form.userId" placeholder="请输入创建用户id" />
         </el-form-item>
-        <el-form-item label="创建部门id" prop="deptId">
+        <el-form-item label="创建部门id" prop="deptId" hidden>
           <el-input v-model="form.deptId" placeholder="请输入创建部门id" />
         </el-form-item>
       </el-form>
@@ -262,6 +262,8 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
+      this.form.userId = this.$store.state.user.userId;
+      this.form.deptId = this.$store.state.user.deptId;
       this.open = true;
       this.title = "添加活动";
     },
