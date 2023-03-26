@@ -35,8 +35,8 @@ module.exports = {
     proxy: {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
-        target: `http://backend.club.xiwang.tk/`,
-        // target: `https://narroworangeflashdrive.gnawix.repl.co`,
+        // target: `http://localhost:8080`,
+        target: `http://47.120.13.157:8080`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
