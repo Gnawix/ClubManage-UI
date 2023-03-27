@@ -35,12 +35,18 @@
           <div slot="header" class="clearfix">
             <span>活动</span>
           </div>
-          <el-collapse accordion>
-            <el-collapse-item title="v3.8.5 - 2023-01-01">
-            </el-collapse-item>
-            <el-collapse-item title="v3.8.4 - 2022-09-26">
-            </el-collapse-item>
-          </el-collapse>
+          <div class="body" v-for="(item, index) in newsList" :key="index">
+            <el-row style="margin-left: 20px;">
+              <li>
+                <el-col :span="18">
+                  {{ item.title }}
+                </el-col>
+                <el-col :span="6">
+                  {{ parseTime(item.time, '{m}-{d} {h}:{i}') }}
+                </el-col>
+              </li>
+            </el-row>
+          </div>
         </el-card>
       </el-col>
     </el-row>
