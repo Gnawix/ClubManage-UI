@@ -4,7 +4,8 @@
       <el-carousel :interval="4000" type="card" height="250px" width="100px">
         <el-carousel-item v-for="(item, index) in newsList.slice(0, 6)" :key="item">
           <div class="carousel-item" @click="goTarget(item.href)">
-            <img :src="item.img" width="100%"/>
+            <!-- <img :src="item.img" width="100%"/> -->
+            <el-image :src="item.img"/>
           </div>
           <h3>{{ item.title }}</h3>
         </el-carousel-item>
