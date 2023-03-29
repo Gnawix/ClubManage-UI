@@ -31,7 +31,7 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
+    <!-- <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
           v-hasPermi="['system:clubapplication:add']">新增</el-button>
@@ -49,10 +49,10 @@
           v-hasPermi="['system:clubapplication:export']">导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-    </el-row>
+    </el-row> -->
 
     <el-table v-loading="loading" :data="clubapplicationList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+      <!-- <el-table-column type="selection" width="55" align="center" /> -->
       <!-- <el-table-column label="主键" align="center" prop="id" /> -->
       <!-- <el-table-column label="社团id" align="center" prop="deptId" /> -->
       <el-table-column label="社团名称" align="center" prop="deptName" />
@@ -70,10 +70,14 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
+          <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
             v-hasPermi="['system:clubapplication:edit']">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['system:clubapplication:remove']">删除</el-button>
+            v-hasPermi="['system:clubapplication:remove']">删除</el-button> -->
+          <el-button size="mini" type="text" icon="el-icon-check" @click="handleApproval(scope.row)"
+            v-hasPermi="['system:clubapplication:approval']">同意</el-button>
+          <el-button size="mini" type="text" icon="el-icon-close" @click="handleReject(scope.row)"
+            v-hasPermi="['system:clubapplication:reject']">拒绝</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -103,7 +107,7 @@
 </template>
 
 <script>
-import { listClubapplication, getClubapplication, delClubapplication, addClubapplication, updateClubapplication } from "@/api/system/clubapplication";
+import { listClubapplication, getClubapplication, delClubapplication, addClubapplication, updateClubapplication, rejectClubapplication, approvalClubapplication } from "@/api/system/clubapplication";
 
 export default {
   name: "Clubapplication",
@@ -231,6 +235,26 @@ export default {
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
+      }).catch(() => { });
+    },
+    /** 同意按钮操作 */
+    handleApproval(row) {
+      const id = row.id;
+      this.$modal.confirm('是否同意该条申请？').then(function () {
+        return approvalClubapplication(id);
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("操作成功");
+      }).catch(() => { });
+    },
+    /** 拒绝按钮操作 */
+    handleReject(row) {
+      const id = row.id;
+      this.$modal.confirm('是否拒绝该条申请？').then(function () {
+        return rejectClubapplication(id);
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("操作成功");
       }).catch(() => { });
     },
     /** 导出按钮操作 */

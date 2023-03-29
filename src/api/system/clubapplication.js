@@ -42,3 +42,21 @@ export function delClubapplication(id) {
     method: 'delete'
   })
 }
+
+// 同意申请
+export function approvalClubapplication(data) {
+  return request({
+    url: '/system/clubapplication/approval',
+    method: 'post',
+    data: data
+  })
+}
+
+// 拒绝申请
+export function rejectClubapplication(data) {
+  return request({
+    url: '/system/clubapplication/reject',
+    method: 'post',
+    data: data
+  })
+}

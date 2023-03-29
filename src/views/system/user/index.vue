@@ -452,9 +452,9 @@ export default {
           { required: true, message: "用户密码不能为空", trigger: "blur" },
           { min: 5, max: 20, message: '用户密码长度必须介于 5 和 20 之间', trigger: 'blur' }
         ],
-        deptId: [
-          { required: true, message: "社团不能为空", trigger: "blur" }
-        ],
+        // deptId: [
+        //   { required: true, message: "社团不能为空", trigger: "blur" }
+        // ],
         roleIds: [
           { required: true, message: "角色设置不能为空", trigger: "change" }
         ],
