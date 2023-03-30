@@ -18,11 +18,14 @@ export function getClubapplication(id) {
 }
 
 // 新增社团申请列表
-export function addClubapplication(data) {
+export function addClubapplication(deptId, userId) {
   return request({
     url: '/system/clubapplication',
     method: 'post',
-    data: data
+    data: {
+      deptId,
+      userId
+    }
   })
 }
 

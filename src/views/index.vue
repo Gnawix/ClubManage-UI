@@ -3,31 +3,36 @@
     <el-row :gutter="20" style="margin: 0 20px 0 20px;">
       <el-carousel :interval="4000" type="card" height="250px" width="100px">
         <el-carousel-item v-for="(item, index) in newsList.slice(0, 6)" :key="item">
-          <div class="carousel-item" @click="goTarget(item.href)">
-            <!-- <img :src="item.img" width="100%"/> -->
+          <router-link :to="{ path: '/newslistdetail', query: { id: item.id } }">
+          <!-- <div class="carousel-item" @click="goTarget(item.href)"> -->
+          <div class="carousel-item">
             <el-image :src="item.img" width="100%"/>
           </div>
+          </router-link>
           <h3>{{ item.title }}</h3>
         </el-carousel-item>
       </el-carousel>
     </el-row>
     <el-row :gutter="20" style="margin: 0 20px 0 20px;">
-      <el-col :xs="24" :sm="24" :md="12" :lg="12">
+      <!-- <el-col :xs="24" :sm="24" :md="12" :lg="12"> -->
+      <el-col :span="8">
         <el-card class="update-log" style="margin-right: 10px;">
-          <div slot="header" class="clearfix">
+          <div slot="header" class="clearfix"  align="center">
             <span>新闻</span>
           </div>
           <div class="body" v-for="(item, index) in newsList" :key="index">
-            <el-row style="margin-left: 20px;">
+            <router-link :to="{ path: '/newslistdetail', query: { id: item.id } }">
+            <el-row style="margin-left: 20px; margin-bottom: 10px;">
               <li>
-                <el-col :span="18">
+                <el-col :span="16">
                   {{ item.title }}
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="8">
                   {{ parseTime(item.time, '{m}-{d} {h}:{i}') }}
                 </el-col>
               </li>
             </el-row>
+            </router-link>
           </div>
         </el-card>
       </el-col>
@@ -36,14 +41,17 @@
           <div slot="header" class="clearfix">
             <span>活动</span>
           </div>
-          <div class="body" v-for="(item, index) in newsList" :key="index">
-            <el-row style="margin-left: 20px;">
+          <div class="body" v-for="(item, index) in activityList" :key="index">
+            <el-row style="margin-left: 20px; margin-bottom: 10px;">
               <li>
-                <el-col :span="18">
-                  {{ item.title }}
+                <el-col :span="8">
+                  {{ item.actTitle }}
                 </el-col>
-                <el-col :span="6">
-                  {{ parseTime(item.time, '{m}-{d} {h}:{i}') }}
+                <el-col :span="8">
+                  {{ item.actLocation }}
+                </el-col>
+                <el-col :span="8">
+                  {{ parseTime(item.actTime, '{m}-{d} {h}:{i}') }}
                 </el-col>
               </li>
             </el-row>
@@ -56,25 +64,36 @@
 
 <script>
 import { listNews } from "@/api/system/news";
+import { listActivity } from "@/api/system/activity";
 
 export default {
   name: "Index",
   data() {
     return {
-      newsList: []
+      newsList: [],
+      activityList: []
     };
   },
   mounted() {
-    this.getList()
+    this.getNewsList(),
+    this.getActivityList()
   },
   methods: {
     goTarget(href) {
       window.open(href, "_blank");
     },
-    getList() {
+    getNewsList() {
       this.loading = true;
       listNews(this.queryParams).then(response => {
         this.newsList = response.rows;
+        this.total = response.total;
+        this.loading = false;
+      });
+    },
+    getActivityList() {
+      this.loading = true;
+      listActivity(this.queryParams).then(response => {
+        this.activityList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
