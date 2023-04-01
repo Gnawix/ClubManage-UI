@@ -1,51 +1,53 @@
 <template>
   <div class="app-container home">
     <el-row :gutter="20" style="margin: 0 20px 0 20px;">
-      <el-carousel :interval="4000" type="card" height="250px" width="100px">
-        <el-carousel-item v-for="(item, index) in newsList.slice(0, 6)" :key="item">
-          <router-link :to="{ path: '/newslistdetail', query: { id: item.id } }">
-          <!-- <div class="carousel-item" @click="goTarget(item.href)"> -->
-          <div class="carousel-item">
-            <el-image :src="item.img" width="100%"/>
-          </div>
-          </router-link>
-          <h3>{{ item.title }}</h3>
-        </el-carousel-item>
-      </el-carousel>
+      <div style="position: relative;">
+        <el-carousel :interval="4000" type="card" height="250px" width="100px">
+          <el-carousel-item v-for="(item, index) in newsList.slice(0, 6)" :key="item">
+            <router-link :to="{ path: '/myrouter/newslistdetail', query: { id: item.id } }">
+              <!-- <div class="carousel-item" @click="goTarget(item.href)"> -->
+              <div class="carousel-item">
+                <el-image :src="item.img" width="100%" />
+              </div>
+            </router-link>
+            <div style="position: absolute; bottom: 0; left: 0; width: 100%; background-color: rgba(0,0,0,0.5); height: 23px; display: flex; justify-content: center; align-items: center;">
+              <span style="color: white; margin: 0; padding: 10px; ">{{ item.title }}</span>
+            </div>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
     </el-row>
     <el-row :gutter="20" style="margin: 0 20px 0 20px;">
       <!-- <el-col :xs="24" :sm="24" :md="12" :lg="12"> -->
-      <el-col :span="8">
+      <el-col :span="12">
         <el-card class="update-log" style="margin-right: 10px;">
-          <div slot="header" class="clearfix"  align="center">
+          <div slot="header" class="clearfix" align="center">
             <span>新闻</span>
           </div>
           <div class="body" v-for="(item, index) in newsList" :key="index">
-            <router-link :to="{ path: '/newslistdetail', query: { id: item.id } }">
-            <el-row style="margin-left: 20px; margin-bottom: 10px;">
-              <li>
+            <router-link :to="{ path: '/myrouter/newslistdetail', query: { id: item.id } }">
+              <el-row class="hoverhahaha" style="margin-left: 20px; margin-bottom: 10px;">
                 <el-col :span="16">
-                  {{ item.title }}
+                  ● {{ item.title }}
                 </el-col>
                 <el-col :span="8">
                   {{ parseTime(item.time, '{m}-{d} {h}:{i}') }}
                 </el-col>
-              </li>
-            </el-row>
+              </el-row>
             </router-link>
           </div>
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="12">
+      <!-- <el-col :xs="24" :sm="24" :md="12" :lg="12"> -->
+      <el-col :span="12">
         <el-card class="update-log" style="margin-left: 10px;">
-          <div slot="header" class="clearfix">
+          <div slot="header" class="clearfix" align="center">
             <span>活动</span>
           </div>
           <div class="body" v-for="(item, index) in activityList" :key="index">
-            <el-row style="margin-left: 20px; margin-bottom: 10px;">
-              <li>
+            <el-row class="hoverhahaha" style="margin-left: 20px; margin-bottom: 10px;">
                 <el-col :span="8">
-                  {{ item.actTitle }}
+                  ● {{ item.actTitle }}
                 </el-col>
                 <el-col :span="8">
                   {{ item.actLocation }}
@@ -53,7 +55,6 @@
                 <el-col :span="8">
                   {{ parseTime(item.actTime, '{m}-{d} {h}:{i}') }}
                 </el-col>
-              </li>
             </el-row>
           </div>
         </el-card>
@@ -76,7 +77,7 @@ export default {
   },
   mounted() {
     this.getNewsList(),
-    this.getActivityList()
+      this.getActivityList()
   },
   methods: {
     goTarget(href) {
@@ -132,7 +133,7 @@ export default {
   Helvetica,
   Arial,
   sans-serif;
-  font-size: 13px;
+  font-size: 16px;
   color: #676a6c;
   overflow-x: hidden;
 
@@ -169,6 +170,11 @@ export default {
       padding-inline-start: 40px;
     }
   }
+}
+
+.hoverhahaha:hover {
+  background-color: #78747435;
+  cursor: pointer;
 }
 
 .el-carousel__item h3 {

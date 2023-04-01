@@ -63,3 +63,10 @@ export function rejectClubapplication(data) {
     data: data
   })
 }
+
+export function checkClubapplication() {
+  return request({
+    url: '/system/clubapplication/check',
+    method: 'get',
+  })
+}

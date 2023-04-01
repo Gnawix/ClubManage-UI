@@ -25,14 +25,22 @@
       >
         <el-table-column prop="deptName" label="社团名称" width="160"></el-table-column>
         <el-table-column prop="content" label="社团简介" width="660"></el-table-column>
-        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+        <el-table-column label="" align="center" class-name="small-padding fixed-width">
           <template slot-scope="scope">
+            <div v-if="checkClubapplicationStatus === 0">
             <el-button
               size="mini"
               type="text"
               icon="el-icon-arrow-left"
               @click="handleApproval(scope.row)"
             >申请加入</el-button>
+          </div>
+          <div v-else-if="checkClubapplicationStatus === 1">
+            等待审批
+          </div>
+          <div v-else>
+            <!-- 不可加入 -->
+          </div>
           </template>
         </el-table-column>
       </el-table>
@@ -42,7 +50,7 @@
   
   <script>
   import { listDept, getDept, delDept, addDept, updateDept, listDeptExcludeChild } from "@/api/system/dept";
-  import { addClubapplication } from "@/api/system/clubapplication";
+  import { addClubapplication, checkClubapplication } from "@/api/system/clubapplication";
   import Treeselect from "@riophae/vue-treeselect";
   import "@riophae/vue-treeselect/dist/vue-treeselect.css";
   
@@ -73,6 +81,7 @@
           deptName: undefined,
           status: undefined
         },
+        checkClubapplicationStatus: "",
         // 表单参数
         form: {},
         // 表单校验
@@ -105,6 +114,11 @@
     },
     created() {
       this.getList();
+    },
+    mounted() {
+      checkClubapplication().then(response => {
+        this.checkClubapplicationStatus = response;
+      })
     },
     methods: {
       /** 查询部门列表 */
@@ -201,7 +215,8 @@
           return addClubapplication(row.deptId, userId);
         }).then(() => {
           this.getList();
-          this.$modal.msgSuccess("申请成功成功");
+          this.$modal.msgSuccess("申请成功");
+          window.location.reload();
         }).catch(() => {});
       },
       /** 提交按钮 */

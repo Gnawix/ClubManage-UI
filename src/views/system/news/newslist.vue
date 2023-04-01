@@ -12,9 +12,8 @@
                 <div class="bottom clearfix">
                     <time class="time">{{ item.time }}</time>
                     <el-button type="text" class="button">
-                        <router-link :to="{ path: '/newslistdetail', query: { id: item.id } }">查看详情 </router-link>
+                        <router-link :to="{ path: '/myrouter/newslistdetail', query: { id: item.id } }">查看详情 </router-link>
                     </el-button>
-                    
                 </div>
             </el-card>
         </el-col>

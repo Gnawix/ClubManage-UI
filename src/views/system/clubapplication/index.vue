@@ -17,10 +17,7 @@
       </el-form-item> -->
       <el-form-item label="审核状态" prop="applicationStatus">
         <el-select v-model="queryParams.applicationStatus" placeholder="请选择审核状态" clearable @change="handleQuery">
-          <el-option 
-            v-for="dict in dict.type.sys_application_status" 
-            :key="dict.value" 
-            :label="dict.label" 
+          <el-option v-for="dict in dict.type.sys_application_status" :key="dict.value" :label="dict.label"
             :value="dict.value" />
         </el-select>
       </el-form-item>
@@ -52,32 +49,24 @@
     </el-row> -->
 
     <el-table v-loading="loading" :data="clubapplicationList" @selection-change="handleSelectionChange">
-      <!-- <el-table-column type="selection" width="55" align="center" /> -->
-      <!-- <el-table-column label="主键" align="center" prop="id" /> -->
-      <!-- <el-table-column label="社团id" align="center" prop="deptId" /> -->
       <el-table-column label="社团名称" align="center" prop="deptName" />
-      <!-- <el-table-column label="用户id" align="center" prop="userId" /> -->
       <el-table-column label="用户名" align="center" prop="userName" />
-      <!-- <el-table-column label="0待审批 1同意 2拒绝" align="center" prop="applicationStatus">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_application_status" :value="scope.row.applicationStatus"/>
-        </template>
-      </el-table-column> -->
       <el-table-column label="审核状态" align="center" prop="applicationStatus">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_application_status" :value="scope.row.applicationStatus" />
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:clubapplication:edit']">修改</el-button>
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['system:clubapplication:remove']">删除</el-button> -->
-          <el-button size="mini" type="text" icon="el-icon-check" @click="handleApproval(scope.row)"
-            v-hasPermi="['system:clubapplication:approval']">同意</el-button>
-          <el-button size="mini" type="text" icon="el-icon-close" @click="handleReject(scope.row)"
-            v-hasPermi="['system:clubapplication:reject']">拒绝</el-button>
+          <div v-if="scope.row.applicationStatus === '0'">
+            <el-button size="mini" type="text" icon="el-icon-check" @click="handleApproval(scope.row)"
+              v-hasPermi="['system:clubapplication:approval']">同意</el-button>
+            <el-button size="mini" type="text" icon="el-icon-close" @click="handleReject(scope.row)"
+              v-hasPermi="['system:clubapplication:reject']">拒绝</el-button>
+          </div>
+          <div v-else>
+            已审批
+          </div>
         </template>
       </el-table-column>
     </el-table>

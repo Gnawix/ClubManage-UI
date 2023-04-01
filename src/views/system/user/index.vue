@@ -248,6 +248,7 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <div v-if="form.deptId === 100">
         <el-row>
           <el-col :span="12">
             <el-form-item label="社团" prop="deptId">
@@ -268,6 +269,7 @@
             </el-form-item>
           </el-col>
         </el-row>
+        </div>
         <el-row>
           <el-col :span="12">
             <el-form-item label="手机号码" prop="phonenumber">
