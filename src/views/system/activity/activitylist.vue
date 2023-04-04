@@ -65,6 +65,7 @@
   
 <script>
 import { listActivity, getActivity, delActivity, addActivity, updateActivity } from "@/api/system/activity";
+import { addActivityapplication } from "@/api/system/activityapplication";
 
 export default {
     name: "Activity",
@@ -203,8 +204,9 @@ export default {
         /** 报名参加 */
         handleSignUp(row) {
             const actIds = row.actId || this.ids;
+            var userId = this.$store.state.user.userId;
             this.$modal.confirm('是否确认报名参加"' + row.actTitle + '"活动？').then(function () {
-                // return delActivity(actIds);
+                return addActivityapplication(row.actId, userId);
             }).then(() => {
                 this.getList();
                 this.$modal.msgSuccess("报名成功");
