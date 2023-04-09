@@ -10,7 +10,8 @@
                 <el-image :src="item.img" width="100%" />
               </div>
             </router-link>
-            <div style="position: absolute; bottom: 0; left: 0; width: 100%; background-color: rgba(0,0,0,0.5); height: 23px; display: flex; justify-content: center; align-items: center;">
+            <div
+              style="position: absolute; bottom: 0; left: 0; width: 100%; background-color: rgba(0,0,0,0.5); height: 23px; display: flex; justify-content: center; align-items: center;">
               <span style="color: white; margin: 0; padding: 10px; ">{{ item.title }}</span>
             </div>
           </el-carousel-item>
@@ -45,17 +46,41 @@
             <span>活动</span>
           </div>
           <div class="body" v-for="(item, index) in activityList" :key="index">
-            <el-row class="hoverhahaha" style="margin-left: 20px; margin-bottom: 10px;">
-                <el-col :span="8">
+            <div class="hoverhahaha" style="margin-left: 20px; margin-bottom: 10px;" @click="showDialog(item)">
+              <el-row>
+                <el-col :span="10">
                   ● {{ item.actTitle }}
                 </el-col>
-                <el-col :span="8">
+                <el-col :span="6">
                   {{ item.actLocation }}
                 </el-col>
                 <el-col :span="8">
                   {{ parseTime(item.actTime, '{m}-{d} {h}:{i}') }}
                 </el-col>
-            </el-row>
+              </el-row>
+            </div>
+            <el-dialog :visible.sync="dialogVisible" title="详情" width="50%">
+              <el-form ref="form" :model="dialogData" label-width="80px">
+                <el-form-item label="活动标题" prop="actTitle">
+                  <el-input v-model="dialogData.actTitle" readonly />
+                </el-form-item>
+                <el-form-item label="活动内容">
+                  <el-input type="text" readonly v-model="dialogData.actContent" :min-height="192" />
+                </el-form-item>
+                <el-form-item label="时间" prop="actTime">
+                  <el-date-picker readonly clearable v-model="dialogData.actTime" type="datetime"
+                    value-format="yyyy-MM-dd HH:mm" placeholder="请选择时间">
+                  </el-date-picker>
+                </el-form-item>
+                <el-form-item label="地点" prop="actLocation">
+                  <el-input readonly v-model="dialogData.actLocation" placeholder="请输入地点" />
+                </el-form-item>
+              </el-form>
+              <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="cancel">确 定</el-button>
+                <!-- <el-button @click="cancel">取 消</el-button> -->
+              </div>
+            </el-dialog>
           </div>
         </el-card>
       </el-col>
@@ -72,7 +97,9 @@ export default {
   data() {
     return {
       newsList: [],
-      activityList: []
+      activityList: [],
+      dialogVisible: false,
+      dialogData: {}
     };
   },
   mounted() {
@@ -98,6 +125,13 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+    },
+    showDialog(item) {
+      this.dialogData = item;
+      this.dialogVisible = true;
+    },
+    cancel() {
+      this.dialogVisible = false;
     }
   }
 };
